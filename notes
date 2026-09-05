@@ -1,0 +1,53 @@
+here the original SXP variable used by sachs and warner is approximated using readily available contemporary world bank data. The original variable was defined as the ratio of primary product exports to gdp. 
+
+the original definition: Share of exports of primary products in GNP in 1970.  Primary products or natural resource exports are exports of “fuels” and “non-fuel primary products” from the World Data 1995CD-ROM disk, produced by the World Bank.  Non-fuel primary products correspond toSITC categories 0, 1, 2, 4, and 68. Fuels correspond to SITC category 3.  These categoriesare from revision 1 of the SITC. these are also used by the world bank and so are a respected measure of primary products
+
+
+a reason why ferrous metals may not have been included in this list is because it requires some processing to get it into its original form. 
+
+a note. world bank uses revision 3 of sitc categories and sachs and warner uses revision 1. 
+
+
+we must therefore find measures from the world bank website which use categories 0 1 2 3 4 68 from revision 1 of the SITC and 
+from revision 1, sitc categories include 
+0 Food and live animals
+1 Beverages and tobacco
+2 Crude materials, inedible, except fuels
+3 Mineral fuels, lubricants and related materials
+4 Animal and vegetable oils, fats and waxes
+68 non ferrous metals 
+
+
+world bank offers measures including: 
+
+-fuel exports (% of merchandise trade) which is said to fill category 3.
+
+-agricultural and raw materials exports(crude materials, inedible, except fuels) which is said to fill category 2.  27 (crude fertilizers and minerals excluding coal, petroleum, and precious stones), and 28 (metalliferous ores and scrap). 
+
+-food exports which fills 0 1 4 and 22 (oil seeds, oil nuts, and oil kernels)
+
+
+this means with available world bank data we are filling SITC 0 1 2 3 4 68 but also 22 27 28, all 3 of which are not unreasonable in an estimation of "natural resources". 
+
+also note that we are using this as percentages of merchandise exports as opposed to the original SXP being share of exports of GNP in 1970, itll be therefore SPM -> share of primary products in merchandise trade. 
+
+to do: collate the SPM variable
+food+fuel+ agr. 
+find off world bank website x
+import to excel. 
+ it must be noted a lot of these countries dont even exist anymore lol
+im gonna use all 217 countries used by world bank -> this includes a few more than the standard 193 UN members + 2 observer states, includes macao ( special administrative region) i will see if this requires getting rid of them them off later on. 
+
+
+
+
+ In 10 countries the published data implied a
+share slightly in execss of 1.0, so these countries were given a share of 1.0 (Cape Verde,
+Gambia, Bahrain, Iran, Kuwait, Oman, Philippines, Vanuatu, Libya, and Kiribati). 
+
+^in original. 
+
+
+
+-------------------
+as for the gdp per capita growth, i am importing it as a time series from 1995-2015, and then turning it into a single measure via R. 
