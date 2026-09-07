@@ -20,12 +20,15 @@ from revision 1, sitc categories include
 
 world bank offers measures including: 
 
+note. sitc 27 -> section 2 subsection 7. 
+
 -fuel exports (% of merchandise trade) which is said to fill category 3.
 
--agricultural and raw materials exports(crude materials, inedible, except fuels) which is said to fill category 2.  27 (crude fertilizers and minerals excluding coal, petroleum, and precious stones), and 28 (metalliferous ores and scrap). 
+-agricultural and raw materials exports(crude materials, inedible, except fuels) which is said to fill category 2 EXCEPT  27 (crude fertilizers and minerals excluding coal, petroleum, and precious stones), and 28 (metalliferous ores and scrap). 
 
 -food exports which fills 0 1 4 and 22 (oil seeds, oil nuts, and oil kernels)
 
+-ores and metals which fills 27 28 68, meaning all of section 2 is now full and also 68
 
 this means with available world bank data we are filling SITC 0 1 2 3 4 68 but also 22 27 28, all 3 of which are not unreasonable in an estimation of "natural resources". 
 
@@ -47,7 +50,26 @@ Gambia, Bahrain, Iran, Kuwait, Oman, Philippines, Vanuatu, Libya, and Kiribati).
 
 ^in original. 
 
+data must be transposed,
+missing data must be turned into na string. x
 
 
+libraries required tidyverse and ggplot2 
+
+
+
+i beleive i have created a totally unneccessary row. i only need the data from 1995 right? haha
+yes the above is correct. lol
+
+
+
+for the purposes of this project i will be getting rid of any countries with null values in this dataset (i dont want to find values from other datasets as these may have different collection methodologies which may take longer/ wont match up with world bank data. 
+
+should the total exceed 100 i would normalise it to 100 as per sachs and warner. 
 -------------------
-as for the gdp per capita growth, i am importing it as a time series from 1995-2015, and then turning it into a single measure via R. 
+as for the gdp per capita growth, i am importing it as a time series from 1995-2015, and then turning it into a single measure via R. annualised average
+
+
+
+to make the figure, im gonna first calculate the mean for gdp per capita growth rates to get only one column, then append that onto the NRs dataframe. once i do that im going to plot the nr total variable against the annualised average gdp per capita growth variable (with the countries being named of course.) with potentially ggplot2 or baser. and then also the regression. 
+
