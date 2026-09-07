@@ -1,4 +1,4 @@
-#fix this with updated findings following regression and finalise sentence structures. 
+
 
 
 
@@ -18,7 +18,10 @@ i wish to know if the curse has backing with an extra 31 years of data.
 im approximating the sxp variable(S&Ws measure of resource intensity) with easily available data and both visualisng their patterns with growht rates and also regressing with growth rates, so we can see if these two things are related anymore. 
 
 **brief headline findings**
-(the findings mean the cures feasibility is more tenuous than it once was.) 
+my findings provide some evidence to the curse's existence, but perhaps the results aren't as convincing as they were when the paper was first published. 
+beta = -0.00824
+p value = 0.0925
+
 
  
 
