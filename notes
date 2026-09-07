@@ -73,3 +73,27 @@ as for the gdp per capita growth, i am importing it as a time series from 1995-2
 
 to make the figure, im gonna first calculate the mean for gdp per capita growth rates to get only one column, then append that onto the NRs dataframe. once i do that im going to plot the nr total variable against the annualised average gdp per capita growth variable (with the countries being named of course.) with potentially ggplot2 or baser. and then also the regression. 
 
+interestingly enough, every country that had NRs data in 1995 also had gdp per capita data full for the 1995-2014 period. 
+
+i am using constant 2015 gdp per capita in dollars. 
+
+notably, every single country that was plotted which had a negative average growth rate, had atleast 50% natural resource intensity.
+of merchandise exports. 
+
+also the country plotted with the lowest growth rate -> central african republic.. CAR, has 54%. the one with the lowest in total(not plotted, was UAE.
+UAE when their records began  in 1999 had ~91% reliance on fuel alone, and ~96% NRs in total (but of course this is extrapolation and we cannot say for sure what the reliance was in 1995.
+
+other notable examples, zimbabwe, saudi, jamaica, madagascar, gambia. 
+
+examples the other way include, china, the biggest grower plotted at only 15~% nr dependency. 
+the biggest grower in total was equatorial guinea who wasnt plotted. their data ran from '79 to '83 and showed near if not over 100% dependency. there is no other world bank data available. from a different source, the imf, its at 71.364% primary sector of gdp. 
+and from the imf, their dependence on NRs was ~90 ish percent (the image is very bad quality, cant make out a few words.) table 26 https://www.elibrary.imf.org/view/journals/002/1996/148/article-A001-en.xml 
+and so could be our biggest outlier -> extremely high natural resource led growth. 
+it must however be said that they reached their all time high in 2008 and have since rapidly declined. their gdp per capita is expected to be around a third of what it was in 2008 in 2026.and remain heavily dependent on oil to this day. 
+the next biggest grower was bosnia whos nr data starts in 2003 and hovers around 30% of merchandise exports between 2003-2025. -> another one for the "the curse is true pile" it seems. 
+
+overall it seems the curse still has some grounding, but perhaps its evidence has wavered over time. nevertheless the data shows that a rise from 20% reliance to 80% reliance means slower growth by about 0.49 pp(percentage points.)
+this result is statistically significant at the 10% level but not at the 5% level, so it has some significance, but perhaps not enough to make hard judgements about. 
+
+
+
