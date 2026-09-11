@@ -19,8 +19,8 @@ im approximating the sxp variable(S&Ws measure of resource intensity) with easil
 
 **brief headline findings**
 my findings provide some evidence to the curse's existence, but perhaps the results aren't as convincing as they were when the paper was first published. 
-beta = -0.00824
-p value = 0.0925
+beta = ...
+p value = ...
 
 
  
