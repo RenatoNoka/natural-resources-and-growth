@@ -1,102 +1,66 @@
-i did some manual data cleaning, removed the country code column and series code column along with the world bank data origin text at the bottom(though that would be removed in the data cleaning process anyway.) 
+**Methodology Notes accompanying my Natural Resources and Growth project**
 
-
-here the original SXP variable used by sachs and warner is approximated using readily available contemporary world bank data. The original variable was defined as the ratio of primary product exports to gdp. 
-
-the original definition: Share of exports of primary products in GNP in 1970.  Primary products or natural resource exports are exports of “fuels” and “non-fuel primary products” from the World Data 1995CD-ROM disk, produced by the World Bank.  Non-fuel primary products correspond toSITC categories 0, 1, 2, 4, and 68. Fuels correspond to SITC category 3.  These categoriesare from revision 1 of the SITC. these are also used by the world bank and so are a respected measure of primary products
-
-
-a reason why ferrous metals may not have been included in this list is because it requires some processing to get it into its original form. 
-
-a note. world bank uses revision 3 of sitc categories and sachs and warner uses revision 1. 
-
-
-we must therefore find measures from the world bank website which use categories 0 1 2 3 4 68 from revision 1 of the SITC and 
-from revision 1, sitc categories include 
-0 Food and live animals
-1 Beverages and tobacco
-2 Crude materials, inedible, except fuels
-3 Mineral fuels, lubricants and related materials
-4 Animal and vegetable oils, fats and waxes
-68 non ferrous metals 
-
-
-world bank offers measures including: 
-
-note. sitc 27 -> section 2 subsection 7. 
-
--fuel exports (% of merchandise trade) which is said to fill category 3.
-
--agricultural and raw materials exports(crude materials, inedible, except fuels) which is said to fill category 2 EXCEPT  27 (crude fertilizers and minerals excluding coal, petroleum, and precious stones), and 28 (metalliferous ores and scrap). 
-
--food exports which fills 0 1 4 and 22 (oil seeds, oil nuts, and oil kernels)
-
--ores and metals which fills 27 28 68, meaning all of section 2 is now full and also 68
-
-this means with available world bank data we are filling SITC 0 1 2 3 4 68 but also 22 27 28, all 3 of which are not unreasonable in an estimation of "natural resources". 
-
-also note that we are using this as percentages of merchandise exports as opposed to the original SXP being share of exports of GNP in 1970, itll be therefore SPM -> share of primary products in merchandise trade. 
-
-to do: collate the SPM variable
-food+fuel+ agr. 
-find off world bank website x
-import to excel. 
- it must be noted a lot of these countries dont even exist anymore lol
-im gonna use all 217 countries used by world bank -> this includes a few more than the standard 193 UN members + 2 observer states, includes macao ( special administrative region) i will see if this requires getting rid of them them off later on. 
+Detailed notes on decisions and construction/approximation of variables and results supporting the summary in README.md.
 
 
 
+**Variable 1: Approximating Sachs & Warner's SXP (1995) - SPM**
 
- In 10 countries the published data implied a
-share slightly in execss of 1.0, so these countries were given a share of 1.0 (Cape Verde,
-Gambia, Bahrain, Iran, Kuwait, Oman, Philippines, Vanuatu, Libya, and Kiribati). 
+Since this project's version measures the sum as a share of merchandise exports rather than GNP (as in the original), it's labelled SPM (share of primary products in merchandise exports) rather than SXP, to avoid implying a replication.
 
-^in original. 
+Sachs and Warner's original resource-dependence variable, SXP, was defined as:
 
-data must be transposed,
-missing data must be turned into na string. x
+Share of exports of primary products in GNP in 1970. Primary products (natural resource exports) are exports of "fuels" and "non-fuel primary products"  corresponding to SITC revision 1  categories 0, 1, 2, 4, and 68.
 
+SITC categories as of revision 3:
 
-libraries required tidyverse and ggplot2 
+0	Food and live animals
+1	Beverages and tobacco
+2	Crude materials, inedible, except fuels
+3	Mineral fuels, lubricants and related materials
+4	Animal and vegetable oils, fats and waxes
+68	Non-ferrous metals
 
+The World Bank's contemporary data uses SITC revision 3, not revision 1, so an exact replication isn't possible. Available World Bank series were used to map SPM as closely as possible:
 
-
-i beleive i have created a totally unneccessary row. i only need the data from 1995 right? haha
-yes the above is correct. lol
-
-
-
-for the purposes of this project i will be getting rid of any countries with null values in this dataset (i dont want to find values from other datasets as these may have different collection methodologies which may take longer/ wont match up with world bank data. 
-
-should the total exceed 100 i would normalise it to 100 as per sachs and warner. 
--------------------
-as for the gdp per capita growth, i am importing it as a time series from 1995-2015, and then turning it into a single measure via R. annualised average
-
-
-the original variable gea7090 was calculated as such in the 1995 working paper: average annual growth in real GDP divided by the economically active population between
-the years 1970 and 1990. Exact calculation is 100*(1/20)*ln(GDPEA90/GDPEA70). 
+World Bank series in SPM and which	SITC categories are covered 
+Food exports (% of merchandise exports):	0, 1, 4, and 22 
+Fuel exports (% of merchandise exports):	3
+Agricultural raw materials exports (% of merchandise exports):	2, excluding 27 and 28
+Ores and metals exports (% of merchandise exports):	27, 28, 68
 
 
-to make the figure, im gonna first calculate the mean for gdp per capita growth rates to get only one column, then append that onto the NRs dataframe. once i do that im going to plot the nr total variable against the annualised average gdp per capita growth variable (with the countries being named of course.) with potentially ggplot2 or baser. and then also the regression. 
+Summing up, these four series present in our SPM approximationcovers SITC 0, 1, 2, 3, 4, and 68 - matching the original definition of SXP - but also picks up categories 22 (oil seeds, oil nuts, oil kernels), 27 (crude fertilisers/minerals, excl. coal/petroleum/precious stones), and 28 (metalliferous ores and scrap), which the original definition excluded. These additions are arguably reasonable under a broad definition of "natural resources," but it does create some distance between SXP and SPM which has the scope to alter results. (Ferrous metals were likely excluded from the original SITC list because they are usually already processed and or refined since they refer mostly to alloys including iron, unlike raw ores such as iron ore itself.)
 
-interestingly enough, every country that had NRs data in 1995 also had gdp per capita data full for the 1995-2014 period. 
+Sample and cleaning
+All 217 economies tracked by the World Bank were considered (a broader set than the 193 UN members, including territories and special administrative regions such as Macao). Countries with any missing value across the four 1995 export series (and later further cleaned if missing growth data) were dropped rather than backfilled from another source, to avoid mixing data collected under different methodologies.
 
-i am using constant 2015 gdp per capita in dollars. 
+In the original paper, Sachs and Warner noted their methodology led to 10 countries (Cape Verde, Gambia, Bahrain, Iran, Kuwait, Oman, Philippines, Vanuatu, Libya, Kiribati) producing over 100% dependency. Note, however, that no capping was necessary in this sample.
 
+**Variable 2: Annualised GDP per capita growth (1995–2014)**
 
-since we used growth rates data rather than absolute values as in the paper - they had just a start and end point of absolute gdp , the rates are given to us and as such this is a slightly more direct method.
-to make sure we take into account the compound effects of growth, 
+Sachs and Warner's original growth variable was defined as such:
 
-heres why an arithmetic mean isnt as good a fit as logs: arithmetic mean may give us the "average growth" but this is actually not its direct impact on gdp which means its basically nonsense to frame it as though it does...
-a 100% growth followed by -50% means the compound effect is actually 0, which is reflected with logs but not with arithmetic which would return +25%. 
+Average annual growth in real GDP divided by the economically active population between 1970 and 1990: 100 × (1/20) × ln(GDPEA90/GDPEA70) 
 
-therefore we must adjust the growth formula to calculate its total impact. 
+This project uses total population rather than economically-active population (ages 15–64) as a simplification, to avoid mixing in an additional dataset. Otherwise, the calculation follows the same logic which involves taking into consideration the impact of compound growth effects using logarthimic functions(rather than a perhaps intuitive arithmetic average), applied to 1995–2014 World Bank annual growth-rate data (constant 2015 USD) rather than a two-point start/end (1970 and 1989) level series of absolute GDP levels as was originally used.
 
-the formula here is quite identical to the original, except that it doesnt take into account the gdp per economically active person but rather population as a simplification and so as to not mix datasets. 
- -------------------
+an intuitive explanation of the exact code can be found in the markdown, but the method used is as follows: 
 
-regression
-#may not need to include the full results, perhaps when they look at the code that will be sufficient. 
+100 * rowMeans(log(1 + growth/100))
+
+Which is mathematically equivalent to Sachs and Warner's endpoint-based formula.
+
+At first, i used a simple arithmetic mean of the yearly percentage growth rates. However i later amended the method, since it would overstate true compounded growth, particularly for volatile economies. This is because a year of +100% growth followed by −50% growth nets to zero overall change, which the log-based method correctly returns as 0%, while an arithmetic mean would incorrectly show +25%, therefore the arithmetic mean method would not give a result applicable to this situation (rather an "average rate")
+
+an interesting note is that every country with complete 1995 export data also had complete 1995–2014 growth data, so no additional countries were dropped at the merge stage. This could be because industry specific export data is harder to collect than growth data(or perhaps is less important) and so countries that have the more intricate and difficult to obtain data in exports by industry, will usually have the easier easier and more foundational growth data (but not necessarily the other way around).
+
+**Regression and Results discussion**
+
+Simple OLS: log_growth ~ nr_exports, with no additional controls — a deliberate simplification appropriate for a first-year undergraduate project. Adding controls (e.g. initial income, institutional quality, trade openness and especially previous growth) to check robustness is left for after completing further econometrics modules, but would greatly improve this project.
+
+below are the summarised results from the R code: 
+
 Residuals:
     Min      1Q  Median      3Q     Max 
 -3.1133 -0.9983 -0.0708  0.7235  6.0631 
@@ -105,41 +69,44 @@ Coefficients:
              Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  2.521248   0.193794  13.010   <2e-16 ***
 nr_exports  -0.012643   0.005275  -2.397   0.0183 *  
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 1.499 on 108 degrees of freedom
-Multiple R-squared:  0.0505,	Adjusted R-squared:  0.04171 
+Multiple R-squared:  0.0505,  Adjusted R-squared:  0.04171 
 F-statistic: 5.744 on 1 and 108 DF,  p-value: 0.01826
+Results and discussion
 
-main summary : p value of 0.01826, 
-2.521248 -0.012643 β
+The regression suggests a moderate (depending on standpoint of the reader) -and statistically significant at the 5% level- negative relationship between 1995 resource export share and subsequent (1995–2014) annualised GDP per capita growth (β = −0.0126, p = 0.018, R² = 0.05, n = 110). Putting this into context, A move from 20% to 80% resource dependence is associated with roughly 0.756 percentage points slower annual growth.
 
-
-
-im not going to be adding regressors to stress test this result, for simplification purposes necessary in a first year economics project. Perhaps i will return to this following the conclusion of my econometrics modules to make the results more robust. 
+In figure 1 most data points are shown to be concentrated at between 0 and 4% growth and under 30% reliance which is common for many diversified economies. Relative to Sachs and Warners data, perhaps a few more outliers are seen, which may be as a result of our choices in collating these variables. However the main pattern follows that countries with higher NR dependency do in fact grow slower. 
 
 
--------
-results
+Some notable observations in the data are seen below:
+China - the fastest grower in the plotted sample, with resource dependence of only around 15%. 
+Central African Republic - the slowest-growing plotted country, with 54% resource dependence.
+The UAE - not plotted due to incomplete export data, but known to have extremely high oil dependency and suffered from the third greatest decline in average gdp per capita of -1.671%, and when World Bank records began in 1999, dependence was about 96%.
+Equatorial Guinea -  again not plotted but (IMF,1997) estimated over 90% NR dependency in 1996. Interestingly, however, they actually had the highest average growth rate in the uncleaned data which could be considered an outlier to Sachs and Warner's Resource Curse hypothesis that primary product dependent countries usually dont experience rapid, "sustained growth". However, in 2026 the World Bank estimates their gdp per capita to be one third of its 2008 levels, and so this may be said to be short and not sustained. 
 
-notably, every single country that was plotted which had a negative average growth rate, had atleast 50% natural resource intensity.
-of merchandise exports. 
+examples of notable slow-growing, high-dependence cases in the sample which may be suffering from the resource curse include: Zimbabwe, Saudi Arabia, Jamaica, Madagascar, and the Gambia.
 
-also the country plotted with the lowest growth rate -> central african republic.. CAR, has 54%. the one with the lowest in total(not plotted, was UAE.
-UAE when their records began  in 1999 had ~91% reliance on fuel alone, and ~96% NRs in total (but of course this is extrapolation and we cannot say for sure what the reliance was in 1995.
+**Takeaway**
+The resource curse still has some empirical backing in this contemporary window, but the relationship is considerably weaker than the original 1970–90 result, both in effect size and explanatory power (an R² value of 0.05 is low compared to the 79% seen in sachs and warner 2001). Whether this reflects erosion of the curse over time or is as a result of the liberties and approximations taken in this project, is an open question; one a more robust regression and variables could help answer.
 
-other notable examples, zimbabwe, saudi, jamaica, madagascar, gambia. 
+**Limitations and possible extensions**
 
-examples the other way include, china, the biggest grower plotted at only 15~% nr dependency. 
-the biggest grower in total was equatorial guinea who wasnt plotted. their data ran from '79 to '83 and showed near if not over 100% dependency. there is no other world bank data available. from a different source, the imf, its at 71.364% primary sector of gdp. 
-and from the imf, their dependence on NRs was ~90 ish percent (the image is very bad quality, cant make out a few words.) table 26 https://www.elibrary.imf.org/view/journals/002/1996/148/article-A001-en.xml 
-and so could be our biggest outlier -> extremely high natural resource led growth. 
-it must however be said that they reached their all time high in 2008 and have since rapidly declined. their gdp per capita is expected to be around a third of what it was in 2008 in 2026.and remain heavily dependent on oil to this day. 
-the next biggest grower was bosnia whos nr data starts in 2003 and hovers around 30% of merchandise exports between 2003-2025. -> another one for the "the curse is true pile" it seems. 
+No additional regressors (see Regression, above).
+SITC revision mismatch between the original (rev. 1) and World Bank contemporary data (rev. 3) means SPM approximates SXP rather than replicating it exactly (see Variable 1, above).
+Complete-case filtering excludes some of the most resource-dependent countries in the world (UAE, Equatorial Guinea, ) from the regression, because their data doesn't span the full window used here potentially therefore not being representative of the wider population outside the sample.
+Growth is measured relative to total population rather than the economically active population used in the original paper, as a simplification.
 
-overall it seems the curse still has some grounding, but perhaps its evidence has wavered over time. nevertheless the data shows that a rise from 20% reliance to 80% reliance means slower growth by about 0.49 pp(percentage points.)
-this result is statistically significant t at the 5% level, so it has some significance.
+**References:**
+
+International Monetary Fund (1996) Guinea: recent economic developments. IMF Staff Country Report No. 96/148. Accessible from: https://www.elibrary.imf.org/view/journals/002/1996/148/article-A001-en.xml [Accessed 3rd September 2026].
+
+Sachs, J.D. and Warner, A.M. (1997) Natural resource abundance and economic growth. [Revised version of NBER Working Paper No. 5398, 1995]. Accessible from: https://www.earth.columbia.edu/sitefiles/file/about/director/documents/NaturalResourceAbundanceandEconomicDevelopmentwithWarner-1997.pdf [Accessed 1st August 2026].
+
+Sachs, J.D. and Warner, A.M. (2001) 'The curse of natural resources', European Economic Review, 45(4–6), pp. 827–838. Accessible from: https://www.sciencedirect.com/science/article/pii/S0014292101001258 [Accessed 9th August 2026].
+
+World Bank (2026) World Development Indicators. Accessible from: https://databank.worldbank.org/source/world-development-indicators [Accessed 24th August 2026].
 
 
 
