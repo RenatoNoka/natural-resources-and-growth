@@ -1,3 +1,6 @@
+i did some manual data cleaning, removed the country code column and series code column along with the world bank data origin text at the bottom(though that would be removed in the data cleaning process anyway.) 
+
+
 here the original SXP variable used by sachs and warner is approximated using readily available contemporary world bank data. The original variable was defined as the ratio of primary product exports to gdp. 
 
 the original definition: Share of exports of primary products in GNP in 1970.  Primary products or natural resource exports are exports of “fuels” and “non-fuel primary products” from the World Data 1995CD-ROM disk, produced by the World Bank.  Non-fuel primary products correspond toSITC categories 0, 1, 2, 4, and 68. Fuels correspond to SITC category 3.  These categoriesare from revision 1 of the SITC. these are also used by the world bank and so are a respected measure of primary products
@@ -70,12 +73,55 @@ should the total exceed 100 i would normalise it to 100 as per sachs and warner.
 as for the gdp per capita growth, i am importing it as a time series from 1995-2015, and then turning it into a single measure via R. annualised average
 
 
+the original variable gea7090 was calculated as such in the 1995 working paper: average annual growth in real GDP divided by the economically active population between
+the years 1970 and 1990. Exact calculation is 100*(1/20)*ln(GDPEA90/GDPEA70). 
+
 
 to make the figure, im gonna first calculate the mean for gdp per capita growth rates to get only one column, then append that onto the NRs dataframe. once i do that im going to plot the nr total variable against the annualised average gdp per capita growth variable (with the countries being named of course.) with potentially ggplot2 or baser. and then also the regression. 
 
 interestingly enough, every country that had NRs data in 1995 also had gdp per capita data full for the 1995-2014 period. 
 
 i am using constant 2015 gdp per capita in dollars. 
+
+
+since we used growth rates data rather than absolute values as in the paper - they had just a start and end point of absolute gdp , the rates are given to us and as such this is a slightly more direct method.
+to make sure we take into account the compound effects of growth, 
+
+heres why an arithmetic mean isnt as good a fit as logs: arithmetic mean may give us the "average growth" but this is actually not its direct impact on gdp which means its basically nonsense to frame it as though it does...
+a 100% growth followed by -50% means the compound effect is actually 0, which is reflected with logs but not with arithmetic which would return +25%. 
+
+therefore we must adjust the growth formula to calculate its total impact. 
+
+the formula here is quite identical to the original, except that it doesnt take into account the gdp per economically active person but rather population as a simplification and so as to not mix datasets. 
+ -------------------
+
+regression
+#may not need to include the full results, perhaps when they look at the code that will be sufficient. 
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.1133 -0.9983 -0.0708  0.7235  6.0631 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2.521248   0.193794  13.010   <2e-16 ***
+nr_exports  -0.012643   0.005275  -2.397   0.0183 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.499 on 108 degrees of freedom
+Multiple R-squared:  0.0505,	Adjusted R-squared:  0.04171 
+F-statistic: 5.744 on 1 and 108 DF,  p-value: 0.01826
+
+main summary : p value of 0.01826, 
+2.521248 -0.012643 β
+
+
+
+im not going to be adding regressors to stress test this result, for simplification purposes necessary in a first year economics project. Perhaps i will return to this following the conclusion of my econometrics modules to make the results more robust. 
+
+
+-------
+results
 
 notably, every single country that was plotted which had a negative average growth rate, had atleast 50% natural resource intensity.
 of merchandise exports. 
@@ -93,7 +139,7 @@ it must however be said that they reached their all time high in 2008 and have s
 the next biggest grower was bosnia whos nr data starts in 2003 and hovers around 30% of merchandise exports between 2003-2025. -> another one for the "the curse is true pile" it seems. 
 
 overall it seems the curse still has some grounding, but perhaps its evidence has wavered over time. nevertheless the data shows that a rise from 20% reliance to 80% reliance means slower growth by about 0.49 pp(percentage points.)
-this result is statistically significant at the 10% level but not at the 5% level, so it has some significance, but perhaps not enough to make hard judgements about. 
+this result is statistically significant t at the 5% level, so it has some significance.
 
 
 
