@@ -8,7 +8,7 @@ The starting point for this project is Sachs and Warner's The Curse of Natural R
 
 **Research question**
 
-Does the resource curse still show up in the data 20 on from the original period studied?
+Does the resource curse still show up in the data 20 years on from the original period studied?
 
 **Approach**
 Natural Resources dependency in 1995. Sachs and Warner's original measure (SXP) was the share of primary product exports in GNP, using 1970s-era SITC export categories. This project approximates it with contemporary World Bank export data - food, fuel, agricultural raw materials, and ores & metals exports as a share of merchandise exports in 1995 - referred to here as SPM (share of primary products in merchandise exports). Full category mapping and caveats are in notes.
